@@ -34,7 +34,16 @@ class BookSuggestionService {
 	}
 
 	Set<String> suggestBooks(Reader reader, Author author) {
-		throw new UnsupportedOperationException(/*TODO*/);
+		return books.stream()
+				.filter(book -> book.rating() >= 4) // Filter books with rating >= 4
+				.filter(book -> reader.favouriteGenres().contains(book.genre())) // Filter books matching reader's favorite genres
+				.filter(book -> readers.stream()
+						.filter(r -> r != reader) // Different reader
+						.filter(r -> r.age() == reader.age()) // Same age
+						.anyMatch(r -> r.favouriteBooks().contains(book))) // Has book in favorites
+				.filter(book -> book.author().equals(author)) // Filter books by the specified author
+				.map(Book::title)
+				.collect(Collectors.toSet());
 	}
 
 }

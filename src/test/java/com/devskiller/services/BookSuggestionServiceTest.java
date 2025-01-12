@@ -123,7 +123,32 @@ public class BookSuggestionServiceTest {
 		assertThat(suggestedBooks).doesNotContain(book9.title());  // HORROR book with rating 4 but not in other readers' favorites
 	}
 
+	// QUESTION 2 TESTS: suggestBooks(Reader reader, Author author)
+	@Test
+	public void shouldOnlySuggestBookTitlesOfGivenAuthor() {
+		// when:
+		Set<String> suggestedBooks = suggestionService.suggestBooks(reader1, author1);
 
+		// then:
+		assertThat(suggestedBooks).isEqualTo(newHashSet(book1.title(), book2.title()));
+	}
+
+	@Test
+	public void shouldReturnEmptySetWhenAuthorHasNoBooksInGenre() {
+		// given:
+		Reader reader = new Reader(randomAge1);
+		reader.addToFavourites(ROMANTIC); // author1 has no ROMANTIC books with rating >= 4
+
+		// when:
+		Set<String> suggestedBooks = suggestionService.suggestBooks(reader, author1);
+
+		// then:
+		assertThat(suggestedBooks)
+				.as("Should return empty set when author has no books in reader's favorite genre")
+				.isEmpty();
+	}
+
+	// QUESTION 3 TESTS: suggestBooks(Reader reader, int rating)
 	@Test
 	public void shouldSuggestBookTitlesWithCorrectRating() {
 		// when:
@@ -133,12 +158,4 @@ public class BookSuggestionServiceTest {
 		assertThat(suggestedBooks).isEqualTo(newHashSet(book2.title()));
 	}
 
-	@Test
-	public void shouldOnlySuggestBookTitlesOfGivenAuthor() {
-		// when:
-		Set<String> suggestedBooks = suggestionService.suggestBooks(reader1, author1);
-
-		// then:
-		assertThat(suggestedBooks).isEqualTo(newHashSet(book1.title(), book2.title()));
-	}
 }
