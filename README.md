@@ -2,16 +2,16 @@
 
 ## Notes / Log By Ernesto (Developer) to Interviewer
 
-At first, I implemented each question / method one by one, and added some test to check for common edge cases and defensive programming.
+At first, I implemented each question one by one, and added some test to check for common edge cases and defensive programming.
 
-When I finished I reviewed `BookSuggestionService.java` and noticed there was a lot of repeated logic.
+When I finished, I reviewed `BookSuggestionService.java` and noticed there was a enough of repeated logic to consider a refactor.
 
-To reduce duplication and simplify testing, I first merged logic of `suggestBooks(Reader reader, int rating)` and `suggestBooks(Reader reader)` using `Optional` 
-since these methods only differed by the rating.
+To reduce duplication and simplify testing, I first merged logic of `suggestBooks(Reader reader, int rating)` and `suggestBooks(Reader reader)` in a single book-filtering 
+method, since these methods only differed by the rating criteria.
 
-Then I decided to include also the `suggestBooks(Reader reader, Author author)`
+Then I decided to the `suggestBooks(Reader reader, Author author)` logic to the same method, since the only difference was the author criteria. 
 
-**Note**: I understand that  Optional as a parameter type, is generally discouraged, though it shows a warning.... 
+- **Note**: I understand that  `Optional` as a parameter type, is generally discouraged, and it shows a warning in some linting systems.... 
 I think that with a bit more time I could figure a way to avoid duplication and the warning.
 
 ## Introduction
