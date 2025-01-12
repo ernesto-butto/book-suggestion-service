@@ -83,7 +83,7 @@ public class BookSuggestionServiceTest {
 
 	}
 
-	// Note for interview: Important because it tests the case when the reader has no favorite books, tests common edge case, and defensive programming practices
+	// Note for interview: These tests are important because it tests the case when the reader has no favorite books, tests common edge case, and defensive programming practices
 	@Test
 	public void shouldNotSuggestBooksWhenNoFavoriteGenres() {
 		// given:
@@ -156,6 +156,21 @@ public class BookSuggestionServiceTest {
 
 		// then:
 		assertThat(suggestedBooks).isEqualTo(newHashSet(book2.title()));
+	}
+
+	@Test
+	public void shouldReturnEmptySetWhenNoExactRatingMatch() {
+		// given:
+		Reader reader = new Reader(randomAge1);
+		reader.addToFavourites(HORROR);
+
+		// when: requesting books with rating 2 (no books in test data have rating 2)
+		Set<String> suggestedBooks = suggestionService.suggestBooks(reader, 2);
+
+		// then:
+		assertThat(suggestedBooks)
+				.as("Should return empty set when no books match the exact rating")
+				.isEmpty();
 	}
 
 }
