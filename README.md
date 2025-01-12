@@ -1,5 +1,19 @@
 # BOOKS SUGGESTION SERVICE 
 
+## Notes / Log By Ernesto (Developer) to Interviewer
+
+At first, I implemented each question / method one by one, and added some test to check for common edge cases and defensive programming.
+
+When I finished I reviewed `BookSuggestionService.java` and noticed there was a lot of repeated logic.
+
+To reduce duplication and simplify testing, I first merged logic of `suggestBooks(Reader reader, int rating)` and `suggestBooks(Reader reader)` using `Optional` 
+since these methods only differed by the rating.
+
+Then I decided to include also the `suggestBooks(Reader reader, Author author)`
+
+**Note**: I understand that  Optional as a parameter type, is generally discouraged, though it shows a warning.... 
+I think that with a bit more time I could figure a way to avoid duplication and the warning.
+
 ## Introduction
 
 The service suggests books to readers based on the book's ratings, reader's favourite genres, book's author and the 
